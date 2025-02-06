@@ -6,14 +6,18 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: window.location.origin + "/dashboard" },
+      options: {
+        redirectTo: window.location.origin + "/dashboard",
+        useRedirect: true,
+      },
     });
 
-    if (error) console.error("Login error:", error.message);
+    if (error) {
+      console.error("Google login error:", error.message);
+    }
   };
-
 
   return (
     <main className="bg-gradient-to-b from-primary via-teal-50 to-secondary flex items-center justify-center text-darkBlue min-h-screen font-parkisans">

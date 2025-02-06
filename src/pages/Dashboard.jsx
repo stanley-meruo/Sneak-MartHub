@@ -8,21 +8,23 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error("Error fetching user:", error.message);
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
         navigate("/login");
       } else {
-        setUser(data.user);
+        setUser(user);
       }
     };
-    fetchUser();
+
+    checkUser();
   }, [navigate]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/");
+    navigate("/login");
   };
 
 
