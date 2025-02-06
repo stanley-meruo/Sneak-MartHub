@@ -7,20 +7,36 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     const {
+  //       data: { user },
+  //     } = await supabase.auth.getUser();
+  //     if (!user) {
+  //       navigate("/login");
+  //     } else {
+  //       setUser(user);
+  //     }
+  //   };
+
+  //   checkUser();
+  // }, [navigate]);
   useEffect(() => {
     const checkUser = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+      console.log("User data from Supabase:", user); // Debugging
+
       if (!user) {
-        navigate("/login");
+        window.location.replace("/login"); // 🚀 Hard Redirect to Fix Mobile Issue
       } else {
         setUser(user);
       }
     };
 
     checkUser();
-  }, [navigate]);
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
